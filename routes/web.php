@@ -16,7 +16,10 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [HomeController::class, 'registerView']);
-Route::get('login', [HomeController::class, 'loginView']);
+Route::get('/', function () {
+  return view('welcome');
+});
+Route::get('login', [HomeController::class, 'loginView'])->name('home.login');
 Route::get('register', [HomeController::class, 'registerView']);
 Route::post('/do-register', [UserController::class, 'register']);
+Route::post('/do-login', [UserController::class, 'login']);

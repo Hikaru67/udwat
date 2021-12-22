@@ -41,10 +41,7 @@
                 @enderror
               </div>
               <div class="form-group">
-                <input id="password-field" type="password" class="form-control" name="password_confirmation " placeholder="Password confirmation">
-                @error('password')
-                  <span class="message-danger">{{ $message }}</span>
-                @enderror
+                <input id="password-field" type="password" class="form-control" name="password_confirmation" placeholder="Password confirmation">
               </div>
               <div class="form-group">
                 <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
@@ -62,6 +59,7 @@
               <div class="form-group">
                 <button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
               </div>
+              <a href="/login" style="color: #fff; display: inline-block"class="w-100 text-center">&mdash; Login &mdash;</a>
             </form>
           </div>
         </div>
