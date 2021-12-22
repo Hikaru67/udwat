@@ -7,9 +7,18 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
-     * Register view
+     * Register an account
+     *
+     * @param Request $request
      */
-    public function registerView() {
-        return view('pages.customer.login');
+    public function register(Request $request) {
+        $request->validate([
+            'username' => 'required|min:3',
+            'email' => 'required|email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        $data = $request->only(['username', 'password', 'email', 'phone', 'address']);
+        dd($data);
+        return view('login');
     }
 }

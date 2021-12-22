@@ -27,4 +27,11 @@ class HomeController extends Controller
         return view('login');
     }
 
+    /**
+     * Forgot password view
+     */
+    public function forgotPasswordView() {
+        return view('forgotPassword');
+    }
+
 }
