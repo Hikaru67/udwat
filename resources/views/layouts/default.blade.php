@@ -32,7 +32,7 @@
             <div class="container-fluid">
                 <div class="menu-wrapper">
                     <!-- Logo -->
-                    <div class="logo">
+                    <div class="logo" style="margin-left: 20px">
                         <a href="index.html"><img class="img-logo" src="assets/img/logo/bmt_logo.png" alt=""></a>
                     </div>
                     <!-- Main-menu -->
@@ -41,13 +41,6 @@
                             <ul id="navigation">  
                                 <li><a href="index.html">Home</a></li>
                                 <li><a href="shop.html">shop</a></li>
-                                <li><a href="about.html">about</a></li>
-                                <li class="hot"><a href="#">Latest</a>
-                                    <ul class="submenu">
-                                        <li><a href="shop.html"> Product list</a></li>
-                                        <li><a href="product_details.html"> Product Details</a></li>
-                                    </ul>
-                                </li>
                                 <li><a href="blog.html">Blog</a>
                                     <ul class="submenu">
                                         <li><a href="blog.html">Blog</a></li>
@@ -56,14 +49,9 @@
                                 </li>
                                 <li><a href="#">Pages</a>
                                     <ul class="submenu">
-                                        <li><a href="login.html">Login</a></li>
                                         <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="elements.html">Element</a></li>
-                                        <li><a href="confirmation.html">Confirmation</a></li>
-                                        <li><a href="checkout.html">Product Checkout</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -75,8 +63,14 @@
                                     <span class="flaticon-search"></span>
                                 </div>
                             </li>
-                            <li> <a href="login"><span class="flaticon-user"></span></a></li>
-                            <li><a href="cart.html"><span class="flaticon-shopping-cart"></span></a> </li>
+                            @if(session()->get('is_login'))
+                                {{session()->get('user')['username']}}
+                                <a href="change-password" class="ml-3" style="color: #006bab">Change password</span></a>
+                                <a href="logout" class="ml-3" style="color: #006bab">Logout</span></a>
+                            @else
+                                <li><a href="login">Login</a></li>
+                            @endif
+                            <!-- <li><a href="cart.html"><span class="flaticon-shopping-cart"></span></a> </li> -->
                         </ul>
                     </div>
                 </div>
@@ -102,7 +96,7 @@
                             <div class="single-footer-caption mb-30">
                                 <!-- logo -->
                                 <div class="footer-logo">
-                                    <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
+                                    <a href="index.html"><img class="img-logo" src="assets/img/logo/bmt_logo.png" alt=""></a>
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">

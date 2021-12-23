@@ -58,6 +58,12 @@ class UserController extends Controller
         return redirect('/');
     }
 
+    public function logout() {
+        session()->flush();
+
+        return redirect('/login');
+    }
+
     /**
      * Recover password
      *
@@ -89,7 +95,7 @@ class UserController extends Controller
         $request->validate([
             'code' => 'required',
             'email' => 'required',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,40}$/i|confirmed',
         ]);
         $data = $request->only(['code', 'email', 'password']);
 
@@ -110,5 +116,27 @@ class UserController extends Controller
         // dispatch(new SendEmail('mail.changePassword', $user, $data['email'], 'Your password was changed'));
 
         return redirect()->route('home.login');
+    }
+
+    public function updatePassword(Request $request){
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|regex:/|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,40}$/i/i|confirmed',
+        ]);
+
+        $data = $request->only(['old_password', 'new_password']);
+        $user = session()->get('user');
+        $user = User::where('email', $user['email'])->first();
+        if (!isset($user) || !Hash::check($data['old_password'], $user->password)) {
+            return back()->withErrors(['fail' => 'Old password was wrong'])->withInput();
+        }
+
+        $data['new_password'] = bcrypt($data['new_password']);
+        $user->password = $data['new_password'];
+        $user->update();
+
+        dispatch(new SendEmail('mail.changedPassword', $user, $user->email, 'Your password was changed'));
+
+        return redirect()->route('home');
     }
 }
