@@ -33,7 +33,7 @@
                 <div class="menu-wrapper">
                     <!-- Logo -->
                     <div class="logo">
-                        <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                        <a href="index.html"><img class="img-logo" src="assets/img/logo/bmt_logo.png" alt=""></a>
                     </div>
                     <!-- Main-menu -->
                     <div class="main-menu d-none d-lg-block">
@@ -75,7 +75,7 @@
                                     <span class="flaticon-search"></span>
                                 </div>
                             </li>
-                            <li> <a href="login.html"><span class="flaticon-user"></span></a></li>
+                            <li> <a href="login"><span class="flaticon-user"></span></a></li>
                             <li><a href="cart.html"><span class="flaticon-shopping-cart"></span></a> </li>
                         </ul>
                     </div>

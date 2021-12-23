@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.default')
 
 @section('title')
   <title>Register</title>
@@ -20,13 +20,13 @@
           <div class="form-group">
             <input type="text" class="form-control" placeholder="Username" name="username" value="{{ old('username') }}">
             @error('username')
-              <span class="message-danger">{{ $message }}</span>
+              <span class="danger">{{ $message }}</span>
             @enderror
           </div>
           <div class="form-group">
             <input id="password-field" type="password" class="form-control" name="password" placeholder="Password">
             @error('password')
-              <span class="message-danger">{{ $message }}</span>
+              <span class="danger">{{ $message }}</span>
             @enderror
           </div>
           <div class="form-group">
@@ -35,7 +35,7 @@
           <div class="form-group">
             <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}">
             @error('email')
-              <span class="message-danger">{{ $message }}</span>
+              <span class="danger">{{ $message }}</span>
             @enderror
           </div>
 

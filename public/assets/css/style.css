@@ -11472,3 +11472,7 @@ input:focus {
 .success {
   color: green;
 }
+
+.img-logo {
+  max-width: 60px;
+}

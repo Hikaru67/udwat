@@ -1,1 +1,1 @@
-Thanks for signing up account!
+Welcome to BMT!
