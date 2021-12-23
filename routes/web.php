@@ -19,7 +19,12 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
   return view('welcome');
 });
+
 Route::get('login', [HomeController::class, 'loginView'])->name('home.login');
+Route::post('/do-login', [UserController::class, 'login']);
+
 Route::get('register', [HomeController::class, 'registerView']);
 Route::post('/do-register', [UserController::class, 'register']);
-Route::post('/do-login', [UserController::class, 'login']);
+
+Route::get('forgot-password', [HomeController::class, 'forgotPasswordView']);
+Route::post('/recover-password', [UserController::class, 'recoverPassword']);
