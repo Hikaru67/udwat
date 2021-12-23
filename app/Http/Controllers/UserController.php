@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Jobs\SendEmail;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -57,6 +58,11 @@ class UserController extends Controller
         return redirect('/');
     }
 
+    /**
+     * Recover password
+     *
+     * @param Request $request
+     */
     public function recoverPassword(Request $request) {
         $request->validate([
             'email' => 'required'
@@ -68,9 +74,35 @@ class UserController extends Controller
         }
         $code = $user->username . time() . $user->email . rand(0,time());
         $data['code'] = md5($code);
-        
+        Cache::put('recover_code' . $user->username, $data['code'], now()->addMinutes(30));
 
         dispatch(new SendEmail('mail.recoverPassword', $data, $data['email'], 'Recover password'));
         return back()->withSuccess('An recover email is sent to your email')->withInput();
+    }
+
+    public function renewPassword(Request $request) {
+        $request->validate([
+            'code' => 'required',
+            'email' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        $data = $request->only(['code', 'email', 'password']);
+
+        $user = User::where('email', $data['email'])->first();
+        if (!isset($user)) {
+            return back()->withErrors(['fail' => 'Oops! Something was wrong'])->withInput();
+        }
+        $code = Cache::get('recover_code_' . $user->username);
+        if (!isset($code) || $code !== $data['code']) {
+            return back()->withErrors(['fail' => 'Oops! Something was wrong'])->withInput();
+        }
+
+        $data['password'] = bcrypt($data['password']);
+        $user->password = $data['password'];
+        $user->update();
+
+        // dispatch(new SendEmail('mail.changePassword', $user, $data['email'], 'Your password was changed'));
+
+        return redirect()->route('home.login');
     }
 }
