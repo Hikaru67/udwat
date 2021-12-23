@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Jobs\SendEmail;
 
 class UserController extends Controller
 {
@@ -21,7 +22,8 @@ class UserController extends Controller
         ]);
         $data = $request->only(['username', 'email', 'password', 'phone', 'address']);
         $data['password'] = bcrypt($data['password']);
-        User::create($data);
+        $user = User::create($data);
+        dispatch(new SendEmail('mail.activeAccount', $user, $data['email'], 'Active account'));
 
         return redirect()->route('home.login');
     }
@@ -53,5 +55,22 @@ class UserController extends Controller
         ]);
 
         return redirect('/');
+    }
+
+    public function recoverPassword(Request $request) {
+        $request->validate([
+            'email' => 'required'
+        ]);
+        $data = $request->only(['email']);
+        $user = User::where('email', $data['email'])->first();
+        if (!isset($user)) {
+            return back()->withErrors(['fail' => 'Email is not used for any account'])->withInput();
+        }
+        $code = $user->username . time() . $user->email . rand(0,time());
+        $data['code'] = md5($code);
+        
+
+        dispatch(new SendEmail('mail.recoverPassword', $data, $data['email'], 'Recover password'));
+        return back()->withSuccess('An recover email is sent to your email')->withInput();
     }
 }
