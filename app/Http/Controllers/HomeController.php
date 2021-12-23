@@ -17,7 +17,7 @@ class HomeController extends Controller
      * Register view
      */
     public function loginView() {
-        return view('login');
+        return view('login2');
     }
 
     /**

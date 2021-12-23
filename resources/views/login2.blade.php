@@ -1,4 +1,4 @@
-@extends('layouts.home')
+@extends('layouts.default')
 
 @section('title')
   <title>Login</title>
