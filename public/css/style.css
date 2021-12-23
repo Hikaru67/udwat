@@ -12011,6 +12011,10 @@ textarea.form-control {
   font-size: 80%;
 }
 
+.message-success {
+  color: #00ff3a;
+}
+
 .field-icon {
   top: 35%;
 }
