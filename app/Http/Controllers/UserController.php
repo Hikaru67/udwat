@@ -42,7 +42,7 @@ class UserController extends Controller
         $data = $request->only(['username', 'password']);
         $user = User::where('username', $data['username'])->first();
         if (!isset($user) || !Hash::check($data['password'], $user->password)) {
-            return back()->withErrors(['wrong_password' => 'Username or password is incorrect'])->withInput();
+            return back()->withErrors(['fail' => 'Username or password is incorrect'])->withInput();
         }
 
         session([
@@ -74,12 +74,17 @@ class UserController extends Controller
         }
         $code = $user->username . time() . $user->email . rand(0,time());
         $data['code'] = md5($code);
-        Cache::put('recover_code' . $user->username, $data['code'], now()->addMinutes(30));
+        Cache::put('recover_code_' . $user->username, $data['code'], now()->addMinutes(30));
 
         dispatch(new SendEmail('mail.recoverPassword', $data, $data['email'], 'Recover password'));
         return back()->withSuccess('An recover email is sent to your email')->withInput();
     }
 
+    /**
+     * Renew Password
+     *
+     * @param Request $request
+     */
     public function renewPassword(Request $request) {
         $request->validate([
             'code' => 'required',
@@ -93,13 +98,14 @@ class UserController extends Controller
             return back()->withErrors(['fail' => 'Oops! Something was wrong'])->withInput();
         }
         $code = Cache::get('recover_code_' . $user->username);
-        if (!isset($code) || $code !== $data['code']) {
+        if (!isset($code) || $code != $data['code']) {
             return back()->withErrors(['fail' => 'Oops! Something was wrong'])->withInput();
         }
 
         $data['password'] = bcrypt($data['password']);
         $user->password = $data['password'];
         $user->update();
+        Cache::forget('recover_code_' . $user->username);
 
         // dispatch(new SendEmail('mail.changePassword', $user, $data['email'], 'Your password was changed'));
 

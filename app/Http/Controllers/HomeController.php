@@ -34,4 +34,11 @@ class HomeController extends Controller
         return view('forgotPassword');
     }
 
+    /**
+     * Renew password view
+     */
+    public function renewPasswordView() {
+        return view('renewPassword');
+    }
+
 }

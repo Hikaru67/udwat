@@ -28,3 +28,6 @@ Route::post('/do-register', [UserController::class, 'register']);
 
 Route::get('forgot-password', [HomeController::class, 'forgotPasswordView']);
 Route::post('/recover-password', [UserController::class, 'recoverPassword']);
+
+Route::get('/renew-password', [HomeController::class, 'renewPasswordView']);
+Route::post('/renew-password', [UserController::class, 'renewPassword']);
