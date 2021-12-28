@@ -33,15 +33,15 @@
                 <div class="menu-wrapper">
                     <!-- Logo -->
                     <div class="logo" style="margin-left: 20px">
-                        <a href="index.html"><img class="img-logo" src="assets/img/logo/bmt_logo.png" alt=""></a>
+                        <a href="/"><img class="img-logo" src="assets/img/logo/bmt_logo.png" alt=""></a>
                     </div>
                     <!-- Main-menu -->
                     <div class="main-menu d-none d-lg-block">
                         <nav>                                                
                             <ul id="navigation">  
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="shop.html">shop</a></li>
-                                <li><a href="blog.html">Blog</a>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="">shop</a></li>
+                                <li><a href="">Blog</a>
                                     <ul class="submenu">
                                         <li><a href="blog.html">Blog</a></li>
                                         <li><a href="blog-details.html">Blog Details</a></li>
@@ -96,7 +96,7 @@
                             <div class="single-footer-caption mb-30">
                                 <!-- logo -->
                                 <div class="footer-logo">
-                                    <a href="index.html"><img class="img-logo" src="assets/img/logo/bmt_logo.png" alt=""></a>
+                                    <a href="/"><img class="img-logo" src="assets/img/logo/bmt_logo.png" alt=""></a>
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">

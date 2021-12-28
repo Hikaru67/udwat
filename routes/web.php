@@ -16,9 +16,10 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-  return view('index');
-})->name('home');;
+// Route::get('/', function () {
+//   return view('index');
+// })->name('home');;
+Route::get('/', [HomeController::class, 'indexView'])->name('home.index');
 
 Route::get('login', [HomeController::class, 'loginView'])->name('home.login');
 Route::post('/do-login', [UserController::class, 'login']);

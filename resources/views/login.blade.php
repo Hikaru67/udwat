@@ -42,11 +42,11 @@
               </label>
             </div>
             <div class="w-50 text-md-right">
-              <a href="/forgot-password" style="color: #fff">Forgot Password</a>
+              <a href="/forgot-password" style="color: #000">Forgot Password</a>
             </div>
           </div>
         </form>
-        <a href="/register" style="color: #fff; display: inline-block"class="w-100 text-center">&mdash; Or Create An Account &mdash;</a>
+        <a href="/register" style="color: #000; display: inline-block"class="w-100 text-center">&mdash; Or Create An Account &mdash;</a>
         <!-- <div class="social d-flex text-center">
           <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span> Facebook</a>
           <a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span> Twitter</a>

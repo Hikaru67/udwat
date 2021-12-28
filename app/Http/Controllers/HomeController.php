@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -22,9 +23,12 @@ class HomeController extends Controller
 
     /**
      * Register view
+     *
+     * @param Request $request
      */
-    public function indexView() {
-        return view('login');
+    public function indexView(Request $request) {
+        $data['books'] = Book::with('category')->paginate(10);
+        return view('index', compact('data'));
     }
 
     /**

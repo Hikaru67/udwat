@@ -48,7 +48,7 @@
           <div class="form-group">
             <button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
           </div>
-          <a href="/login" style="color: #fff; display: inline-block"class="w-100 text-center">&mdash; Login &mdash;</a>
+          <a href="/login" style="color: #000; display: inline-block"class="w-100 text-center">&mdash; Login &mdash;</a>
         </form>
       </div>
     </div>

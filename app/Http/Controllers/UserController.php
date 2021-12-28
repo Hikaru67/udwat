@@ -19,7 +19,7 @@ class UserController extends Controller
         $request->validate([
             'username' => 'required|min:3|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:6|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,40}$/i',
         ]);
         $data = $request->only(['username', 'email', 'password', 'phone', 'address']);
         $data['password'] = bcrypt($data['password']);
@@ -44,13 +44,15 @@ class UserController extends Controller
         if (!isset($user) || !Hash::check($data['password'], $user->password)) {
             return back()->withErrors(['fail' => 'Username or password is incorrect'])->withInput();
         }
-
+        if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+            abort(401, 'Email/Password do not match');
+        }
         session([
             'is_login' => true,
             'user' => [
                 'id' => $user->id,
                 'email' => $user->email,
-                // 'roles' => $user->roles,
+                'roles' => $user->roles,
                 'username' => $user->username,
             ],
         ]);
