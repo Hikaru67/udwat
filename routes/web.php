@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MasterController;
 use App\Http\Middleware\CheckLogin;
 
 /*
@@ -43,3 +44,5 @@ Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckLogin'], 'prefix
 Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckMaster'], 'prefix' => ''], function () {
 
 });
+
+Route::get('book-master', [MasterController::class, 'loginView'])->name('master.login');
