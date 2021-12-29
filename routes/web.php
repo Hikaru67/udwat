@@ -45,4 +45,7 @@ Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckMaster'], 'prefi
 
 });
 
-Route::get('book-master', [MasterController::class, 'loginView'])->name('master.login');
+Route::get('book-master/login', [MasterController::class, 'loginView'])->name('master.loginView');
+Route::post('book-master/login', [UserController::class, 'loginMaster']);
+Route::get('book-master', [MasterController::class, 'indexView'])->name('master.index');
+Route::get('book-master/user-manage', [MasterController::class, 'userManView'])->name('master.userManage');

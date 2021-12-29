@@ -14,7 +14,7 @@ class UpdateTableUsersV1 extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('role_id')->default(0);
+            $table->integer('role_id')->default(1)->after('password');
         });
     }
 

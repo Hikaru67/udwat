@@ -61,6 +61,38 @@ class UserController extends Controller
         return redirect('/');
     }
 
+    /**
+     * Login master
+     *
+     * @param Request $request
+     */
+    public function loginMaster(Request $request) {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        $data = $request->only(['username', 'password']);
+        $user = User::where('username', $data['username'])->first();
+        if (!isset($user) || !Hash::check($data['password'], $user->password)) {
+            return back()->withErrors(['fail' => 'Username or password is incorrect'])->withInput();
+        }
+        if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+            abort(401, 'Email/Password do not match');
+        }
+        session([
+            'is_login' => true,
+            'user' => [
+                'id' => $user->id,
+                'email' => $user->email,
+                'roles' => $user->roles,
+                'username' => $user->username,
+            ],
+        ]);
+
+        return redirect('/');
+    }
+
     public function logout() {
         session()->flush();
 
