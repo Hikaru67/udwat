@@ -39,6 +39,7 @@ class UserController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
+
         $data = $request->only(['username', 'password']);
         $user = User::where('username', $data['username'])->first();
         if (!isset($user) || !Hash::check($data['password'], $user->password)) {

@@ -27,7 +27,7 @@ class HomeController extends Controller
      * @param Request $request
      */
     public function indexView(Request $request) {
-        $data['books'] = Book::with('category')->paginate(10);
+        $data['books'] = Book::with('category')->paginate(8);
         return view('index', compact('data'));
     }
 

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
-use App\Models\Book;
-use App\Http\Requests\BookRequest;
 
-class BookController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $data['books'] = Book::paginate(10);
+        //
     }
 
     /**
@@ -23,13 +22,9 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(BookRequest $request)
+    public function create()
     {
-        $data = $request->all();
-
-        $book = Book::create($data);
-
-        return $book;
+        //
     }
 
     /**
@@ -46,10 +41,10 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Role $role)
     {
         //
     }
@@ -57,10 +52,10 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
         //
     }
@@ -69,10 +64,10 @@ class BookController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
         //
     }
@@ -80,10 +75,10 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
         //
     }
