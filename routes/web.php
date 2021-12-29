@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MasterController;
-use App\Http\Middleware\CheckLogin;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,10 +41,12 @@ Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckLogin'], 'prefix
 });
 
 Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckMaster'], 'prefix' => ''], function () {
-
+  Route::get('book-master/users-manage', [MasterController::class, 'userManView'])->name('master.usersManage');
+  Route::get('book-master/roles-manage', [MasterController::class, 'userManView'])->name('master.rolesManage');
+  Route::get('book-master/books-manage', [MasterController::class, 'userManView'])->name('master.booksManage');
+  Route::get('book-master/call-cards-manage', [MasterController::class, 'userManView'])->name('master.callCardsManage');
+  Route::get('book-master', [MasterController::class, 'indexView'])->name('master.index');
 });
 
-Route::get('book-master/login', [MasterController::class, 'loginView'])->name('master.loginView');
-Route::post('book-master/login', [UserController::class, 'loginMaster']);
-Route::get('book-master', [MasterController::class, 'indexView'])->name('master.index');
-Route::get('book-master/user-manage', [MasterController::class, 'userManView'])->name('master.userManage');
+Route::get('book-master/login', [MasterController::class, 'loginView'])->name('master.login');
+Route::post('book-master/do-login', [UserController::class, 'loginMaster']);

@@ -14247,3 +14247,27 @@ html:not([dir=rtl]) .wrapper {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+.message-danger {
+  padding: 10px;
+  margin: 10px 0;
+  display: inline-block;
+  background: pink;
+  border-radius: 15px;
+}
+
+.danger {
+  color: red;
+}
+
+.message-success {
+  padding: 10px;
+  margin: 10px 0;
+  display: inline-block;
+  background: pink;
+  border-radius: 15px;
+}
+
+.success {
+  color: green;
+}

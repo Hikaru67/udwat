@@ -41,19 +41,19 @@ class UserController extends Controller
         ]);
 
         $data = $request->only(['username', 'password']);
-        $user = User::where('username', $data['username'])->first();
+        $user = User::where('username', $data['username'])->where('role_id', 1)->first();
         if (!isset($user) || !Hash::check($data['password'], $user->password)) {
             return back()->withErrors(['fail' => 'Username or password is incorrect'])->withInput();
         }
-        if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-            abort(401, 'Email/Password do not match');
-        }
+        // if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+        //     abort(401, 'Email/Password do not match');
+        // }
         session([
             'is_login' => true,
             'user' => [
                 'id' => $user->id,
                 'email' => $user->email,
-                'roles' => $user->roles,
+                // 'roles' => $user->roles,
                 'username' => $user->username,
             ],
         ]);
@@ -73,16 +73,17 @@ class UserController extends Controller
         ]);
 
         $data = $request->only(['username', 'password']);
-        $user = User::where('username', $data['username'])->first();
+        $user = User::where('username', $data['username'])->where('role_id', '>' , 1)->with('roles')->first();
         if (!isset($user) || !Hash::check($data['password'], $user->password)) {
             return back()->withErrors(['fail' => 'Username or password is incorrect'])->withInput();
         }
-        if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-            abort(401, 'Email/Password do not match');
-        }
+        $user->load('roles');
+        // if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+        //     abort(401, 'Email/Password do not match');
+        // }
         session([
-            'is_login' => true,
-            'user' => [
+            'isMaster' => true,
+            'master' => [
                 'id' => $user->id,
                 'email' => $user->email,
                 'roles' => $user->roles,
@@ -90,7 +91,7 @@ class UserController extends Controller
             ],
         ]);
 
-        return redirect('/');
+        return redirect('/book-master');
     }
 
     public function logout() {
@@ -109,7 +110,7 @@ class UserController extends Controller
             'email' => 'required'
         ]);
         $data = $request->only(['email']);
-        $user = User::where('email', $data['email'])->first();
+        $user = User::where('email', $data['email'])->where('role_id', 1)->first();
         if (!isset($user)) {
             return back()->withErrors(['fail' => 'Email is not used for any account'])->withInput();
         }
@@ -134,7 +135,7 @@ class UserController extends Controller
         ]);
         $data = $request->only(['code', 'email', 'password']);
 
-        $user = User::where('email', $data['email'])->first();
+        $user = User::where('email', $data['email'])->where('role_id', 1)->first();
         if (!isset($user)) {
             return back()->withErrors(['fail' => 'Oops! Something was wrong'])->withInput();
         }
@@ -161,7 +162,7 @@ class UserController extends Controller
 
         $data = $request->only(['old_password', 'new_password']);
         $user = session()->get('user');
-        $user = User::where('email', $user['email'])->first();
+        $user = User::where('email', $user['email'])->where('role_id', 1)->first();
         if (!isset($user) || !Hash::check($data['old_password'], $user->password)) {
             return back()->withErrors(['fail' => 'Old password was wrong'])->withInput();
         }

@@ -16,6 +16,10 @@ class CheckMaster
      */
     public function handle(Request $request, Closure $next)
     {
+        if (!session('isMaster')) {
+            return redirect()->route('master.login');
+        }
+
         return $next($request);
     }
 }

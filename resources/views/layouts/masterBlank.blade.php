@@ -59,50 +59,10 @@
   </head>
 
   <body>
-
-    <!-- Sidebar open-->
-    <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
-      <div class="sidebar-brand d-none d-md-flex">
-        <svg class="sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
-          <use xlink:href="/coreui/assets/brand/coreui.svg#full"></use>
-        </svg>
-        <svg class="sidebar-brand-narrow" width="46" height="46" alt="CoreUI Logo">
-          <use xlink:href="/coreui/assets/brand/coreui.svg#signet"></use>
-        </svg>
-      </div>
-      <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-        <li class="nav-item"><a class="nav-link" href="/book-master">
-            <svg class="nav-icon">
-              <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
-            </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
-        <li class="nav-title">Management</li>
-        <li class="nav-item"><a class="nav-link" href="/book-master/users-manage">
-            <svg class="nav-icon">
-              <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
-            </svg> Users Manage</a></li>
-        <li class="nav-item"><a class="nav-link" href="/book-master/books-manage">
-            <svg class="nav-icon">
-              <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
-            </svg> Books Manage</a></li>
-        <li class="nav-group"><a class="nav-link" href="/book-master/call-cards-manage">
-            <svg class="nav-icon">
-              <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
-            </svg>Call Cards Manage</a>
-        </li>
-        <li class="nav-group"><a class="nav-link" href="/book-master/roles-manage">
-            <svg class="nav-icon">
-              <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-cursor"></use>
-            </svg> Roles Manage</a>
-        </li>
-      </ul>
-      <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
-    </div>
-    <!-- Sidebar close -->
-
     @yield('content')
 
     <!-- JS here -->
-      <!-- CoreUI and necessary plugins-->
+    <!-- CoreUI and necessary plugins-->
     <script src="coreui/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
     <script src="coreui/vendors/simplebar/js/simplebar.min.js"></script>
     <!-- We use those scripts to show code examples, you should remove them in your application.-->
@@ -110,12 +70,6 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/unescaped-markup/prism-unescaped-markup.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/normalize-whitespace/prism-normalize-whitespace.js"></script>
-    <!-- Plugins and scripts required by this view-->
-    <script src="coreui/vendors/chart.js/js/chart.min.js"></script>
-    <script src="coreui/vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>
-    <script src="coreui/vendors/@coreui/utils/js/coreui-utils.js"></script>
-    <script src="coreui/js/main.js"></script>
-
   </body>
 
 </html>

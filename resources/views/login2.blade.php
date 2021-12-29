@@ -30,6 +30,9 @@
                                 <div class="col-md-12 form-group p_star">
                                     <input type="text" class="form-control" id="username" name="username" value=""
                                         placeholder="Username">
+                                    @error('username')
+                                        <span class="danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 @if(request()->get('code'))
                                     <input type="hidden" value="{{request()->get('code')}}">
@@ -37,6 +40,9 @@
                                 <div class="col-md-12 form-group p_star">
                                     <input type="password" class="form-control" id="password" name="password" value=""
                                         placeholder="Password">
+                                    @error('password')
+                                        <span class="danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="col-md-12 form-group">
                                     <div class="creat_account d-flex align-items-center">
