@@ -14,36 +14,44 @@
       <div class="card-title center">
         <h3>Edit</h3>
       </div>
-      <form action="/book-master/books/{{$book->id}}" method="post" enctype="multipart/form-data">
+      <form action="/book-master/books/create" method="post" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
           <label class="form-label" for="title">Title</label>
-          <input class="form-control" id="title" type="text" value="{{$book->title}}" name="title">
+          <input class="form-control" id="title" type="text" value="{{old('title')}}" name="title">
+          @error('title')
+            <span class="danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="mb-3">
           <label class="input-label" for="inputGroupFile01">Image</label>
           <input class="form-control" id="inputGroupFile01" type="file" name="file_upload">
-          <img src="{{$book->image}}" class="img-responsive" width="150px" alt="">
         </div>
         <div class="mb-3">
           <label class="form-label" for="description">Description</label>
-          <textarea class="form-control" id="description" rows="3" name="description">{{$book->description}}</textarea>
+          <textarea class="form-control" id="description" rows="3" name="description">{{old('description')}}</textarea>
         </div>
         <div class="mb-3">
           <label class="form-label" for="category">Category</label>
-          <select class="form-select" aria-label=Category" value="{{$book->category_id}}" name="category_id">
+          <select class="form-select" aria-label=Category" value="{{old('category_id')}}" name="category_id">
             @foreach($categories as $category)
-              <option value="{{ $category->id }}" {{ ($book->category_id == $category->id ? "selected":"") }}>{{ $category->name }}</option>
+              <option value="{{ $category->id }}" {{ (old('category_id') == $category->id ? "selected":"") }}>{{ $category->name }}</option>
             @endforeach
           </select>
         </div>
         <div class="mb-3">
           <label class="form-label" for="total_quantity">Total Quantity</label>
-          <input class="form-control" id="total_quantity" name="total_quantity" type="text" value="{{$book->total_quantity}}">
+          <input class="form-control" id="total_quantity" name="total_quantity" type="text" value="{{old('total_quantity')}}">
+          @error('total_quantity')
+            <span class="danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="mb-3">
           <label class="form-label" for="lend_quantity">Lent Quantity</label>
-          <input class="form-control" id="lend_quantity" name="lend_quantity" type="text" value="{{$book->lend_quantity}}">
+          <input class="form-control" id="lend_quantity" name="lend_quantity" type="text" value="{{old('lend_quantity')}}">
+          @error('lend_quantity')
+            <span class="danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="center">
           <a href="." type="button" class="btn btn-secondary" data>Return</a>

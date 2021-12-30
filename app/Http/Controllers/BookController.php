@@ -47,7 +47,7 @@ class BookController extends Controller
         if($request->file_upload){
             $image = @$request->file('file_upload')->storeAs('public/images', $request->file('file_upload')->getClientOriginalName());
             $image = str_replace('public', 'storage', $image);
-            $data['image'] = $image;
+            $data['image'] = url('/') . '/' . $image;
         }
 
         Book::create($data);
@@ -102,7 +102,7 @@ class BookController extends Controller
             }
         }
         if (isset($image) && $image) {
-            $book->image = $image;
+            $book->image = url('/') . '/' . $image;
         }
         $book->save();
 

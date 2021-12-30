@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,13 @@ Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckMaster'], 'prefi
   Route::get('/book-master/books/{book}', [BookController::class, 'edit'])->name('master.books.edit');
   Route::post('/book-master/books/{book}', [BookController::class, 'update'])->name('master.books.update');
   Route::get('/book-master/books/delete/{book}', [BookController::class, 'destroy'])->name('master.books.delete');
+
+  Route::get('/book-master/roles', [RoleController::class, 'index'])->name('master.roles.index');
+  Route::get('/book-master/roles/new', [RoleController::class, 'create'])->name('master.roles.create');
+  Route::post('/book-master/roles/create', [RoleController::class, 'store'])->name('master.roles.store');
+  Route::get('/book-master/roles/{role}', [RoleController::class, 'edit'])->name('master.roles.edit');
+  Route::post('/book-master/roles/{role}', [RoleController::class, 'update'])->name('master.roles.update');
+  Route::get('/book-master/roles/delete/{role}', [RoleController::class, 'destroy'])->name('master.roles.delete');
 
   Route::get('/book-master/call-cards-manage', [MasterController::class, 'userManView'])->name('master.callCardsManage');
   Route::get('/book-master', [MasterController::class, 'indexView'])->name('master.index');

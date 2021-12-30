@@ -14284,3 +14284,12 @@ html:not([dir=rtl]) .wrapper {
 a {
   text-decoration: none;
 }
+
+.title {
+  max-width: 200px;
+  text-overflow: ellipsis; 
+}
+.description {
+  max-width: 450px;
+  text-overflow: ellipsis; 
+}

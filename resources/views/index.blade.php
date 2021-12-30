@@ -22,11 +22,11 @@
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                     <div class="single-new-pro mb-30 text-center">
                         <div class="product-img">
-                            <img src="assets/img/gallery/new_product1.png" alt="">
+                            <img src="{{$book->image}}" alt="">
                         </div>
                         <div class="product-caption">
-                            <h3><a href="product_details.html">{{$book->title}}</a></h3>
-                            <span>$ 45,743</span>
+                            <h3><a href="/books/{{$book->id}}">{{$book->title}}</a></h3>
+                            <span>$</span>
                         </div>
                     </div>
                 </div>
