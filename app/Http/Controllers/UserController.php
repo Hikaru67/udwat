@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Jobs\SendEmail;
 use App\Models\Role;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -19,6 +20,10 @@ class UserController extends Controller
      */
     public function index()
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['user']['view'])) {
+            return redirect()->route('master.index');
+        }
         $data['users'] = User::with('role')->orderBy('id', 'desc')->paginate(10);
 
         return view('master.users.index', compact('data'));
@@ -31,6 +36,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['user']['edit'])) {
+            return redirect()->route('master.index');
+        }
         $roles = Role::all();
 
         return view('master.users.new', compact('roles'));
@@ -44,8 +53,12 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['user']['edit'])) {
+            return redirect()->route('master.index');
+        }
         $data = $request->all();
-
+        $data['password'] = bcrypt($data['password']);
         User::create($data);
 
         return redirect()->route('master.users.index');
@@ -70,6 +83,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['user']['edit'])) {
+            return redirect()->route('master.index');
+        }
         $user->load('role');
         $roles = Role::all();
 
@@ -85,6 +102,10 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['user']['edit'])) {
+            return redirect()->route('master.index');
+        }
         $data = $request->only(['email', 'phone', 'role_id', 'address']);
 
         foreach ($data as $key => $item) {
@@ -105,6 +126,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['user']['delete'])) {
+            return redirect()->route('master.index');
+        }
         $user->load('role');
         if ($user->role->name === 'master') {
             return back()->withErrors(['fail' => 'Can not delete Master']);
@@ -121,9 +146,9 @@ class UserController extends Controller
      */
     public function register(Request $request) {
         $request->validate([
-            'username' => 'required|min:3|unique:users,username',
+            'username' => 'required|min:6|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,40}$/i',
+            'password' => 'required|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,40}$/i',
         ]);
         $data = $request->only(['username', 'email', 'password', 'phone', 'address']);
         $data['password'] = bcrypt($data['password']);
@@ -149,9 +174,7 @@ class UserController extends Controller
         if (!isset($user) || !Hash::check($data['password'], $user->password)) {
             return back()->withErrors(['fail' => 'Username or password is incorrect'])->withInput();
         }
-        // if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-        //     abort(401, 'Email/Password do not match');
-        // }
+
         session([
             'is_login' => true,
             'user' => [
@@ -177,20 +200,16 @@ class UserController extends Controller
         ]);
 
         $data = $request->only(['username', 'password']);
-        $user = User::where('username', $data['username'])->where('role_id', '>' , 1)->with('roles')->first();
+        $user = User::where('username', $data['username'])->where('role_id', '>' , 1)->with('role')->first();
         if (!isset($user) || !Hash::check($data['password'], $user->password)) {
             return back()->withErrors(['fail' => 'Username or password is incorrect'])->withInput();
         }
-        $user->load('roles');
-        // if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-        //     abort(401, 'Email/Password do not match');
-        // }
         session([
-            'isMaster' => true,
+            'is_master' => true,
             'master' => [
                 'id' => $user->id,
                 'email' => $user->email,
-                'roles' => $user->roles,
+                'role' => $user->role,
                 'username' => $user->username,
             ],
         ]);
@@ -198,10 +217,22 @@ class UserController extends Controller
         return redirect('/book-master');
     }
 
+    /**
+     * logout user
+     */
     public function logout() {
-        session()->flush();
+        Session::forget(['is_login', 'user']);
 
         return redirect('/login');
+    }
+
+    /**
+     * logout user
+     */
+    public function logoutMaster() {
+        Session::forget(['is_master', 'master']);
+
+        return redirect()->route('master.login');
     }
 
     /**

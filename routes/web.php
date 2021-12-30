@@ -45,7 +45,12 @@ Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckLogin'], 'prefix
 Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckMaster'], 'prefix' => ''], function () {
   Route::get('/book-master/roles', [MasterController::class, 'userManView'])->name('master.rolesManage');
 
-  Route::get('/book-master/users', [UserController::class, 'index'])->name('master.users.index');
+  Route::get('/book-master/users',['middleware' => 'CheckHavingAccess:owner', function () {
+    $roles = session()->get('master')['role']->roles;
+    if (!checkHavingAccess($roles, config('constant.roles')['user']['view'])) {
+      return redirect()->route('master.index');
+    }
+  }], [UserController::class, 'index'])->name('master.users.index');
   Route::get('/book-master/users/new', [UserController::class, 'create'])->name('master.users.create');
   Route::post('/book-master/users/create', [UserController::class, 'store'])->name('master.users.store');
   Route::get('/book-master/users/{user}', [UserController::class, 'edit'])->name('master.users.edit');
@@ -68,6 +73,8 @@ Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckMaster'], 'prefi
 
   Route::get('/book-master/call-cards-manage', [MasterController::class, 'userManView'])->name('master.callCardsManage');
   Route::get('/book-master', [MasterController::class, 'indexView'])->name('master.index');
+
+  Route::get('/book-master/logout', [UserController::class, 'logoutMaster']);
 });
 
 Route::get('/book-master/login', [MasterController::class, 'loginView'])->name('master.login');

@@ -17,6 +17,10 @@ class BookController extends Controller
      */
     public function index()
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['book']['view'])) {
+            return redirect()->route('master.index');
+        }
         $data['books'] = Book::with('category')->orderBy('id', 'desc')->paginate(10);
 
         return view('master.books.index', compact('data'));
@@ -29,6 +33,10 @@ class BookController extends Controller
      */
     public function create()
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['book']['edit'])) {
+            return redirect()->route('master.index');
+        }
         $categories = Category::orderBy('id', 'desc')->get();
 
         return view('master.books.new', compact('categories'));
@@ -42,6 +50,10 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['book']['edit'])) {
+            return redirect()->route('master.index');
+        }
         $data = $request->all();
 
         if($request->file_upload){
@@ -74,6 +86,10 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['book']['edit'])) {
+            return redirect()->route('master.index');
+        }
         $book->load('category');
         $categories = Category::orderBy('id', 'desc')->get();
 
@@ -89,6 +105,10 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['book']['edit'])) {
+            return redirect()->route('master.index');
+        }
         $data = $request->only(['title', 'description', 'category_id', 'total_quantity', 'lend_quantity']);
 
         if($request->file_upload){
@@ -117,6 +137,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        $roles = session()->get('master')['role']->roles;
+        if (!checkHavingAccess($roles, config('constant.roles')['book']['delete'])) {
+            return redirect()->route('master.index');
+        }
         $book->delete();
 
         return redirect()->route('master.books.index');

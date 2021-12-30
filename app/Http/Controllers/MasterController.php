@@ -44,4 +44,11 @@ class MasterController extends Controller
     public function roleManView() {
         return view('master.roleManage');
     }
+
+    /**
+     * Logout master
+     */
+    public function logout() {
+        
+    }
 }

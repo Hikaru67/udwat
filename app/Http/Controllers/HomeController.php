@@ -18,6 +18,9 @@ class HomeController extends Controller
      * Register view
      */
     public function loginView() {
+        if (session()->get('is_login')) {
+            return redirect()->route('home.index');
+        }
         return view('login2');
     }
 

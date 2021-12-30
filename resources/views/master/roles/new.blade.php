@@ -14,45 +14,37 @@
       <div class="card-title center">
         <h3>Edit</h3>
       </div>
-      <form action="/book-master/books/create" method="post" enctype="multipart/form-data">
+      <form action="/book-master/roles/create" method="post" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
-          <label class="form-label" for="title">Title</label>
-          <input class="form-control" id="title" type="text" value="{{old('title')}}" name="title">
-          @error('title')
+          <label class="form-label" for="name">Name</label>
+          <input class="form-control" id="name" type="text" value="{{old('name')}}" name="name">
+          @error('name')
             <span class="danger">{{ $message }}</span>
           @enderror
         </div>
         <div class="mb-3">
-          <label class="input-label" for="inputGroupFile01">Image</label>
-          <input class="form-control" id="inputGroupFile01" type="file" name="file_upload">
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="description">Description</label>
-          <textarea class="form-control" id="description" rows="3" name="description">{{old('description')}}</textarea>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="category">Category</label>
-          <select class="form-select" aria-label=Category" value="{{old('category_id')}}" name="category_id">
-            @foreach($categories as $category)
-              <option value="{{ $category->id }}" {{ (old('category_id') == $category->id ? "selected":"") }}>{{ $category->name }}</option>
-            @endforeach
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label" for="total_quantity">Total Quantity</label>
-          <input class="form-control" id="total_quantity" name="total_quantity" type="text" value="{{old('total_quantity')}}">
-          @error('total_quantity')
+          <label class="form-label" for="roles">Roles</label>
+          <input type="number" value="{{old('roles')}}" min="0" max="511" name="roles" id="roles" onchange="updateRole()">
+          @error('roles')
             <span class="danger">{{ $message }}</span>
           @enderror
         </div>
-        <div class="mb-3">
-          <label class="form-label" for="lend_quantity">Lent Quantity</label>
-          <input class="form-control" id="lend_quantity" name="lend_quantity" type="text" value="{{old('lend_quantity')}}">
-          @error('lend_quantity')
-            <span class="danger">{{ $message }}</span>
-          @enderror
+        <br>
+        <div>
+          @foreach ($rolesList as $key => $roleDetail)
+            <div class="mb-3">
+              <label class="form-label" style="padding-right: 20px">{{$key}}:</label>
+              @foreach ($roleDetail as $key2 => $value)
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input role-list" id="{{$key .'_'. $key2}}" type="checkbox" value="{{bindec($value)}}" onchange="calRoles()" {{ (old('roles') & bindec($value) ? "checked":"") }}>
+                  <label class="form-check-label" for="{{$key .'_'. $key2}}">{{$key2}}</label>
+                </div>
+              @endforeach
+            </div>
+          @endforeach
         </div>
+
         <div class="center">
           <a href="." type="button" class="btn btn-secondary" data>Return</a>
           <button type="submit" class="btn btn-primary">Save</button>
@@ -61,3 +53,33 @@
     </div>
   </div>
 @endsection
+
+<script type="text/javascript">
+  function calRoles() {
+    let roles = document.getElementById('roles')
+    let total = 0;
+    let roleList = document.querySelectorAll('.role-list')
+    for(i=0; i<roleList.length; i++){
+      if (roleList[i].checked) {
+        total += parseInt(roleList[i].value)
+      }
+    }
+    roles.value = total
+    console.log('=>>> ~ total', total)
+    console.log(document.getElementById('roles-output').value)
+    document.getElementById('roles-output').value = total
+
+    return total
+  }
+
+  function updateRole() {
+    let roles = document.getElementById('roles')
+    const roleList = document.querySelectorAll('.role-list')
+    for(i=0; i<roleList.length; i++){
+      roleList[i].checked = false
+      if (roleList[i].value & roles.value) {
+        roleList[i].checked = true
+      }
+    }
+  }
+</script>

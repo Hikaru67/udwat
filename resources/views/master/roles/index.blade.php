@@ -18,13 +18,10 @@
         <thead class="table-dark">
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Category</th>
-            <th scope="col">Total Quantity</th>
-            <th scope="col">Lent Quantity</th>
+            <th scope="col">Name</th>
+            <th scope="col">Role</th>
             <th scope="col" class="center">
-              <a href="/book-master/books/new" style="display: inline-block; padding-right: 10px">
+              <a href="/book-master/roles/new" style="display: inline-block; padding-right: 10px">
                 Create
               </a>
               Action
@@ -32,21 +29,18 @@
           </tr>
         </thead>
         <tbody>
-          @foreach($data['books'] as $book)
+          @foreach($data['roles'] as $role)
           <tr>
-            <th scope="row">{{$book->id}}</th>
-            <td class="title">{{$book->title}}</td>
-            <td class="description">{{$book->description}}</td>
-            <td>{{$book->category->name}}</td>
-            <td>{{$book->total_quantity}}</td>
-            <td>{{$book->lend_quantity}}</td>
+            <th scope="row">{{$role->id}}</th>
+            <td class="name">{{$role->name}}</td>
+            <td class="role">{{$role->roles}}</td>
             <td>
               <div class="action">
                 <div class="action-item">
-                  <a href="/book-master/books/{{$book->id}}">Edit</a>
+                  <a href="/book-master/roles/{{$role->id}}">Edit</a>
                 </div>
                 <div class="action-item">
-                <a href="/book-master/books/delete/{{$book->id}}">Delete</a>
+                <a href="/book-master/roles/delete/{{$role->id}}">Delete</a>
                 </div>
               </div>
             </td>
@@ -54,8 +48,8 @@
           @endforeach
         </tbody>
       </table>
-      @if ($data['books']->lastPage() > 1)
-          {{ $data['books']->render('vendor.pagination.bootstrap-4') }}
+      @if ($data['roles']->lastPage() > 1)
+          {{ $data['roles']->render('vendor.pagination.bootstrap-4') }}
       @endif
     </div>
   </div>

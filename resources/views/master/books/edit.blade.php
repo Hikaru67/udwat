@@ -19,6 +19,9 @@
         <div class="mb-3">
           <label class="form-label" for="title">Title</label>
           <input class="form-control" id="title" type="text" value="{{$book->title}}" name="title">
+          @error('title')
+            <span class="danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="mb-3">
           <label class="input-label" for="inputGroupFile01">Image</label>
@@ -40,10 +43,16 @@
         <div class="mb-3">
           <label class="form-label" for="total_quantity">Total Quantity</label>
           <input class="form-control" id="total_quantity" name="total_quantity" type="text" value="{{$book->total_quantity}}">
+          @error('total_quantity')
+            <span class="danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="mb-3">
           <label class="form-label" for="lend_quantity">Lent Quantity</label>
           <input class="form-control" id="lend_quantity" name="lend_quantity" type="text" value="{{$book->lend_quantity}}">
+          @error('lend_quantity')
+            <span class="danger">{{ $message }}</span>
+          @enderror
         </div>
         <div class="center">
           <a href="." type="button" class="btn btn-secondary" data>Return</a>
