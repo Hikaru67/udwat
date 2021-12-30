@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Book;
+use App\Models\Category;
 use App\Http\Requests\BookRequest;
 
 class BookController extends Controller
@@ -15,7 +17,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        $data['books'] = Book::paginate(10);
+        $data['books'] = Book::with('category')->orderBy('id', 'desc')->paginate(10);
+
+        return view('master.books.index', compact('data'));
     }
 
     /**
@@ -23,13 +27,11 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(BookRequest $request)
+    public function create()
     {
-        $data = $request->all();
+        $categories = Category::orderBy('id', 'desc')->get();
 
-        $book = Book::create($data);
-
-        return $book;
+        return view('master.books.new', compact('categories'));
     }
 
     /**
@@ -38,9 +40,19 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        //
+        $data = $request->all();
+
+        if($request->file_upload){
+            $image = @$request->file('file_upload')->storeAs('public/images', $request->file('file_upload')->getClientOriginalName());
+            $image = str_replace('public', 'storage', $image);
+            $data['image'] = $image;
+        }
+
+        Book::create($data);
+
+        return redirect()->route('master.books.index');
     }
 
     /**
@@ -49,42 +61,64 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Book $book)
     {
-        //
+        return $book;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Book $book)
     {
-        //
+        $book->load('category');
+        $categories = Category::orderBy('id', 'desc')->get();
+
+        return view('master.books.edit', compact(['book', 'categories']));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Book  book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BookRequest $request, Book $book)
     {
-        //
+        $data = $request->only(['title', 'description', 'category_id', 'total_quantity', 'lend_quantity']);
+
+        if($request->file_upload){
+            $image = @$request->file('file_upload')->storeAs('public/images', $request->file('file_upload')->getClientOriginalName());
+            $image = str_replace('public', 'storage', $image);
+        }
+
+        foreach ($data as $key => $item) {
+            if ($item) {
+                $book->$key = $item;
+            }
+        }
+        if (isset($image) && $image) {
+            $book->image = $image;
+        }
+        $book->save();
+
+        return redirect()->route('master.books.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return redirect()->route('master.books.index');
     }
 }

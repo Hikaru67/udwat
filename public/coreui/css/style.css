@@ -14271,3 +14271,16 @@ html:not([dir=rtl]) .wrapper {
 .success {
   color: green;
 }
+
+.action {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.center {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}

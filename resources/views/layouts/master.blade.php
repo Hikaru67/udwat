@@ -76,20 +76,20 @@
               <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-speedometer"></use>
             </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
         <li class="nav-title">Management</li>
-        <li class="nav-item"><a class="nav-link" href="/book-master/users-manage">
+        <li class="nav-item"><a class="nav-link" href="/book-master/users">
             <svg class="nav-icon">
               <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-drop"></use>
             </svg> Users Manage</a></li>
-        <li class="nav-item"><a class="nav-link" href="/book-master/books-manage">
+        <li class="nav-item"><a class="nav-link" href="/book-master/books">
             <svg class="nav-icon">
               <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-pencil"></use>
             </svg> Books Manage</a></li>
-        <li class="nav-group"><a class="nav-link" href="/book-master/call-cards-manage">
+        <li class="nav-group"><a class="nav-link" href="/book-master/call-cards">
             <svg class="nav-icon">
               <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-puzzle"></use>
             </svg>Call Cards Manage</a>
         </li>
-        <li class="nav-group"><a class="nav-link" href="/book-master/roles-manage">
+        <li class="nav-group"><a class="nav-link" href="/book-master/roles">
             <svg class="nav-icon">
               <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-cursor"></use>
             </svg> Roles Manage</a>
@@ -99,22 +99,107 @@
     </div>
     <!-- Sidebar close -->
 
-    @yield('content')
+    <div class="wrapper d-flex flex-column min-vh-100 bg-light">
+      <header class="header header-sticky mb-4">
+        <div class="container-fluid">
+          <button class="header-toggler px-md-0 me-md-3" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
+            <svg class="icon icon-lg">
+              <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
+            </svg>
+          </button><a class="header-brand d-md-none" href="#">
+            <svg width="118" height="46" alt="CoreUI Logo">
+              <use xlink:href="/coreui/assets/brand/coreui.svg#full"></use>
+            </svg></a>
+          <ul class="header-nav d-none d-md-flex">
+            <li class="nav-item"><a class="nav-link" href="/book-master">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="/book-master/users">Users Manage</a></li>
+            <li class="nav-item"><a class="nav-link" href="/book-master/roles">Roles Manage</a></li>
+          </ul>
+          <ul class="header-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#">
+                <svg class="icon icon-lg">
+                  <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+                </svg></a></li>
+            <li class="nav-item"><a class="nav-link" href="#">
+                <svg class="icon icon-lg">
+                  <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-list-rich"></use>
+                </svg></a></li>
+            <li class="nav-item"><a class="nav-link" href="#">
+                <svg class="icon icon-lg">
+                  <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
+                </svg></a></li>
+          </ul>
+
+          <!-- Avatar -->
+          <ul class="header-nav ms-3">
+            <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <div class="avatar avatar-md">
+                  <img class="avatar-img" src="https://i.pinimg.com/originals/c7/a7/4b/c7a74b6f428214ef0b9aabaf0fb68497.jpg" alt="master">
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end pt-0">
+                <div class="dropdown-header bg-light py-2">
+                  <div class="fw-semibold">Account</div>
+                </div><a class="dropdown-item" href="#">
+                  <svg class="icon me-2">
+                    <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
+                  </svg> Updates<span class="badge badge-sm bg-info ms-2"></span></a><a class="dropdown-item" href="#">
+                <div class="dropdown-header bg-light py-2">
+                  <div class="fw-semibold">Settings</div>
+                </div><a class="dropdown-item" href="#">
+                  <svg class="icon me-2">
+                    <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                  </svg> Profile</a><a class="dropdown-item" href="#">
+                  <svg class="icon me-2">
+                    <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-settings"></use>
+                  </svg> Settings</a><a class="dropdown-item" href="#">
+                <div class="dropdown-divider"></div><a class="dropdown-item" href="#">
+                  <svg class="icon me-2">
+                    <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
+                  </svg> Lock Account</a><a class="dropdown-item" href="#">
+                  <svg class="icon me-2">
+                    <use xlink:href="/coreui/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                  </svg> Logout</a>
+              </div>
+            </li>
+          </ul>
+          <!-- Avatar -->
+        </div>
+        <div class="header-divider"></div>
+        <div class="container-fluid">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb my-0 ms-2">
+              <li class="breadcrumb-item">
+                <!-- if breadcrumb is single--><span>Home</span>
+              </li>
+              <li class="breadcrumb-item active"><span>@yield('title-content')</span></li>
+            </ol>
+          </nav>
+        </div>
+      </header>
+      <div class="body flex-grow-1 px-3">
+        <div class="container-lg">
+          @yield('content')
+          <!-- /.row-->
+        </div>
+      </div>
+    </div>
+    <!-- @yield('content') -->
 
     <!-- JS here -->
       <!-- CoreUI and necessary plugins-->
-    <script src="coreui/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
-    <script src="coreui/vendors/simplebar/js/simplebar.min.js"></script>
+    <script src="/coreui/vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+    <script src="/coreui/vendors/simplebar/js/simplebar.min.js"></script>
     <!-- We use those scripts to show code examples, you should remove them in your application.-->
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/prism.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/unescaped-markup/prism-unescaped-markup.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.24.1/plugins/normalize-whitespace/prism-normalize-whitespace.js"></script>
     <!-- Plugins and scripts required by this view-->
-    <script src="coreui/vendors/chart.js/js/chart.min.js"></script>
-    <script src="coreui/vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>
-    <script src="coreui/vendors/@coreui/utils/js/coreui-utils.js"></script>
-    <script src="coreui/js/main.js"></script>
+    <script src="/coreui/vendors/chart.js/js/chart.min.js"></script>
+    <script src="/coreui/vendors/@coreui/chartjs/js/coreui-chartjs.js"></script>
+    <script src="/coreui/vendors/@coreui/utils/js/coreui-utils.js"></script>
+    <script src="/coreui/js/main.js"></script>
 
   </body>
 

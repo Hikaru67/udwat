@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Book;
+use App\Models\User;
 
 class MasterController extends Controller
 {
@@ -31,7 +33,9 @@ class MasterController extends Controller
      * Book manage view
      */
     public function bookManView() {
-        return view('master.bookManage');
+        $data['books'] = Book::with('category')->paginate(10);
+
+        return view('master.books.index', compact('data'));
     }
 
     /**
