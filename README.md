@@ -1,4 +1,4 @@
-<h3>Bài tập xây dựng web an toàn
+<h1>Bài tập xây dựng web an toàn</h1>
 
  1. Tạo mới file **.env**, copy nội dung **.env.example** sang và thay đổi giá trị ``DB_DATABASE`` thành database của mình
  2. Chạy ``composer install`` để cài đặt các package **composer**
