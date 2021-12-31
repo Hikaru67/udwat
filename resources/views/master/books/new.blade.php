@@ -12,7 +12,7 @@
   <div class="card mb-4">
     <div class="card-body">
       <div class="card-title center">
-        <h3>Edit</h3>
+        <h3>Create</h3>
       </div>
       <form action="/book-master/books/create" method="post" enctype="multipart/form-data">
         @csrf

@@ -18,7 +18,4 @@ return [
       'delete' => '100000000'
     ],
   ],
-  'popular_password' => [
-    
-  ]
 ];
