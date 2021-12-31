@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Jobs\SendEmail;
+use App\Models\Dictionary;
 use App\Models\Role;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
@@ -58,6 +59,9 @@ class UserController extends Controller
             return redirect()->route('master.index');
         }
         $data = $request->all();
+        if (Dictionary::where('password', 'like', $data['password'])->first()) {
+            return back()->withErrors(['fail' => 'Your password is popular'])->withInput();
+        }
         $data['password'] = bcrypt($data['password']);
         User::create($data);
 
@@ -107,6 +111,10 @@ class UserController extends Controller
             return redirect()->route('master.index');
         }
         $data = $request->only(['email', 'phone', 'role_id', 'address']);
+        $user->load('role');
+        if (($user->role->roles & Role::FULL_ACCESS) === Role::FULL_ACCESS && session()->get('master')['id'] !== $user->id) {
+            return back()->withErrors(['fail' => 'Can not modify this user']);
+        }
 
         foreach ($data as $key => $item) {
             if ($item) {
@@ -148,10 +156,14 @@ class UserController extends Controller
         $request->validate([
             'username' => 'required|min:6|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,40}$/i',
+            'password' => 'required|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,40}$/i',
         ]);
         $data = $request->only(['username', 'email', 'password', 'phone', 'address']);
-        $data['password'] = bcrypt($data['password']);
+        if (Dictionary::where('password', $data['password'])->first()) { // Check password in dictionary
+            return back()->withErrors(['fail' => 'Your password is popular'])->withInput();
+        }
+
+        $data['password'] = bcrypt($data['password']); // 
         $user = User::create($data);
         dispatch(new SendEmail('mail.activeAccount', $user, $data['email'], 'Active account'));
 
@@ -180,7 +192,6 @@ class UserController extends Controller
             'user' => [
                 'id' => $user->id,
                 'email' => $user->email,
-                // 'roles' => $user->roles,
                 'username' => $user->username,
             ],
         ]);
@@ -278,6 +289,9 @@ class UserController extends Controller
         if (!isset($code) || $code != $data['code']) {
             return back()->withErrors(['fail' => 'Oops! Something was wrong'])->withInput();
         }
+        if (Dictionary::where('password', $data['password'])->first()) {
+            return back()->withErrors(['fail' => 'Your password is popular'])->withInput();
+        }
 
         $data['password'] = bcrypt($data['password']);
         $user->password = $data['password'];
@@ -292,7 +306,7 @@ class UserController extends Controller
     public function updatePassword(Request $request){
         $request->validate([
             'old_password' => 'required',
-            'new_password' => 'required|regex:/|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,40}$/i/i|confirmed',
+            'new_password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,40}$/i|confirmed',
         ]);
 
         $data = $request->only(['old_password', 'new_password']);
@@ -308,6 +322,6 @@ class UserController extends Controller
 
         dispatch(new SendEmail('mail.changedPassword', $user, $user->email, 'Your password was changed'));
 
-        return redirect()->route('home');
+        return redirect()->route('home.index');
     }
 }

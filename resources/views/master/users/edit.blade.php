@@ -49,6 +49,9 @@
             <span class="danger">{{ $message }}</span>
           @enderror
         </div>
+        @error('fail')
+            <span class="danger message-danger">{{ $message }}</span>
+        @enderror
         <div class="center">
           <a href="." type="button" class="btn btn-secondary" data>Return</a>
           <button type="submit" class="btn btn-primary">Save</button>

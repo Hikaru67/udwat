@@ -45,12 +45,7 @@ Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckLogin'], 'prefix
 Route::group(['middleware' => ['web', 'App\Http\Middleware\CheckMaster'], 'prefix' => ''], function () {
   Route::get('/book-master/roles', [MasterController::class, 'userManView'])->name('master.rolesManage');
 
-  Route::get('/book-master/users',['middleware' => 'CheckHavingAccess:owner', function () {
-    $roles = session()->get('master')['role']->roles;
-    if (!checkHavingAccess($roles, config('constant.roles')['user']['view'])) {
-      return redirect()->route('master.index');
-    }
-  }], [UserController::class, 'index'])->name('master.users.index');
+  Route::get('/book-master/users', [UserController::class, 'index'])->name('master.users.index');
   Route::get('/book-master/users/new', [UserController::class, 'create'])->name('master.users.create');
   Route::post('/book-master/users/create', [UserController::class, 'store'])->name('master.users.store');
   Route::get('/book-master/users/{user}', [UserController::class, 'edit'])->name('master.users.edit');

@@ -17,5 +17,8 @@ return [
       'edit' => '010000000',
       'delete' => '100000000'
     ],
+  ],
+  'popular_password' => [
+    
   ]
 ];

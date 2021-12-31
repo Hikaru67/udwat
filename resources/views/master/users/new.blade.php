@@ -50,7 +50,7 @@
           </select>
         </div>
         <div class="mb-3">
-        <label class="form-label" for="phone">Phone</label>
+          <label class="form-label" for="phone">Phone</label>
           <input class="form-control" id="phone" name="phone" type="text" value="{{old('phone')}}">
           @error('phone')
             <span class="danger">{{ $message }}</span>
@@ -63,6 +63,9 @@
             <span class="danger">{{ $message }}</span>
           @enderror
         </div>
+        @error('fail')
+            <span class="danger message-danger">{{ $message }}</span>
+        @enderror
         <div class="center">
           <a href="." type="button" class="btn btn-secondary" data>Return</a>
           <button type="submit" class="btn btn-primary">Save</button>

@@ -30,19 +30,19 @@
                             <form class="row contact_form" action="change-password" method="post">
                                 @csrf
                                 <div class="col-md-12 form-group p_star">
-                                    <input type="password" class="form-control" id="old_password" name="old_password" value=""
+                                    <input type="text" class="form-control" id="old_password" name="old_password" value="{{old('old_password')}}"
                                         placeholder="Old Password">
                                 </div>
                                 @error('password')
                                   <span class="danger">{{ $message }}</span>
                                 @enderror
                                 <div class="col-md-12 form-group p_star">
-                                    <input type="password" class="form-control" id="new_password" name="new_password" value=""
+                                    <input type="text" class="form-control" id="new_password" name="new_password" value="{{old('new_password')}}"
                                         placeholder="New password">
                                 </div>
                             
                                 <div class="col-md-12 form-group p_star">
-                                    <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" value=""
+                                    <input type="text" class="form-control" id="new_password_confirmation" name="new_password_confirmation" value="{{old('new_password_confirmation')}}"
                                         placeholder="Confirm password">
                                 </div>
                                 @error('new_password')

@@ -45,6 +45,9 @@
           <div class="form-group">
             <input type="text" class="form-control" name="address" placeholder="Address" value="{{ old('address') }}">
           </div>
+          @error('fail')
+              <span class="danger message-danger">{{ $message }}</span>
+          @enderror
           <div class="form-group">
             <button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
           </div>
